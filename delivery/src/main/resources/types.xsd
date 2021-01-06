@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="windows-1250" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.delivery.shop.com/types"
+            targetNamespace="http://www.delivery.shop.com/types"
+            elementFormDefault="qualified">
+    <xsd:complexType name="Delivery">
+        <xsd:sequence>
+            <xsd:element name="recipient" type="Person"/>
+            <xsd:element name="address" type="Address"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="PaymentCard">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="validTo" type="xsd:string"/>
+            <xsd:element name="number" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Person">
+        <xsd:sequence>
+            <xsd:element name="firstName" type="xsd:string"/>
+            <xsd:element name="lastName" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Address">
+        <xsd:sequence>
+            <xsd:element name="address" type="xsd:string"/>
+            <xsd:element name="zip" type="xsd:string"/>
+            <xsd:element name="city" type="xsd:string"/>
+            <xsd:element name="country" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="DeliveryInfo">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:int"/>
+            <xsd:element name="status" type="xsd:string"/>
+            <xsd:element name="cost" type="xsd:decimal"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Fault">
+        <xsd:sequence>
+            <xsd:element name="code" type="xsd:int"/>
+            <xsd:element name="text" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,231 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Online shop API"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/api",
+  "tags" : [ {
+    "name" : "order",
+    "description" : "Order Service"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/order/place" : {
+      "post" : {
+        "tags" : [ "order" ],
+        "summary" : "Place order",
+        "operationId" : "verb1",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The order",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OrderRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Order successfully placed",
+            "schema" : {
+              "$ref" : "#/definitions/OrderInfo"
+            }
+          }
+        }
+      }
+    },
+    "/order/status/{id}" : {
+      "get" : {
+        "tags" : [ "order" ],
+        "summary" : "Order Status",
+        "operationId" : "verb2",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Order id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/OrderInfo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "ProductEntry" : {
+      "type" : "object",
+      "properties" : {
+        "productName" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "Address" : {
+      "type" : "object",
+      "required" : [ "address", "city", "country", "zip" ],
+      "properties" : {
+        "address" : {
+          "type" : "string"
+        },
+        "zip" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "country" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DeliveryRequest" : {
+      "type" : "object",
+      "required" : [ "address", "recipient" ],
+      "properties" : {
+        "recipient" : {
+          "xml" : {
+            "namespace" : "http://www.delivery.shop.com"
+          },
+          "$ref" : "#/definitions/Person"
+        },
+        "address" : {
+          "xml" : {
+            "namespace" : "http://www.delivery.shop.com"
+          },
+          "$ref" : "#/definitions/Address"
+        }
+      },
+      "xml" : {
+        "name" : "deliveryRequest",
+        "namespace" : "http://www.delivery.shop.com"
+      }
+    },
+    "PaymentRequest" : {
+      "type" : "object",
+      "properties" : {
+        "cardNumber" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OrderRequest" : {
+      "type" : "object",
+      "properties" : {
+        "saleRequest" : {
+          "$ref" : "#/definitions/SaleRequest"
+        },
+        "deliveryRequest" : {
+          "$ref" : "#/definitions/DeliveryRequest"
+        },
+        "paymentRequest" : {
+          "$ref" : "#/definitions/PaymentRequest"
+        }
+      }
+    },
+    "Person" : {
+      "type" : "object",
+      "required" : [ "firstName", "lastName" ],
+      "properties" : {
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SaleRequest" : {
+      "type" : "object",
+      "properties" : {
+        "products" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductEntry"
+          }
+        }
+      }
+    },
+    "PaymentInfo" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "amount" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "OrderInfo" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "deliveryInfo" : {
+          "$ref" : "#/definitions/DeliveryInfo"
+        },
+        "paymentInfo" : {
+          "$ref" : "#/definitions/PaymentInfo"
+        },
+        "saleInfo" : {
+          "$ref" : "#/definitions/SaleInfo"
+        }
+      }
+    },
+    "DeliveryInfo" : {
+      "type" : "object",
+      "required" : [ "cost", "status" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "cost" : {
+          "type" : "number"
+        }
+      }
+    },
+    "SaleInfo" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "cost" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    }
+  }
+}

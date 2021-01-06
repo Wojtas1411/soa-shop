@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="windows-1250" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.delivery.shop.com"
+            xmlns:dtp="http://www.delivery.shop.com/types"
+            targetNamespace="http://www.delivery.shop.com"
+            elementFormDefault="qualified">
+    <xsd:import schemaLocation="types.xsd" namespace="http://www.delivery.shop.com/types"/>
+
+    <xsd:element name="deliveryRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="recipient" type="dtp:Person"/>
+                <xsd:element name="address" type="dtp:Address"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deliveryResponse" type="dtp:DeliveryInfo"/>
+
+    <xsd:element name="deliveryStatusRequest">
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:int"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deliveryStatusResponse" type="dtp:DeliveryInfo"/>
+
+    <xsd:element name="cancelDeliveryRequest">
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:int"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cancelDeliveryResponse" type="dtp:DeliveryInfo"/>
+
+    <xsd:element name="deliveryError" type="dtp:Fault"/>
+</xsd:schema>

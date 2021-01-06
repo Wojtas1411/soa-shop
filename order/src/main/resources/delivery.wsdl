@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://www.delivery.shop.com" name="Delivery" targetNamespace="http://www.delivery.shop.com">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.delivery.shop.com/types" elementFormDefault="qualified" targetNamespace="http://www.delivery.shop.com/types" version="1.0">
+
+  <xs:complexType name="Person">
+    <xs:sequence>
+      <xs:element name="firstName" type="xs:string"/>
+      <xs:element name="lastName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element name="address" type="xs:string"/>
+      <xs:element name="zip" type="xs:string"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeliveryInfo">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="status" type="xs:string"/>
+      <xs:element name="cost" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Fault">
+    <xs:sequence>
+      <xs:element name="code" type="xs:int"/>
+      <xs:element name="text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PaymentCard">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="validTo" type="xs:string"/>
+      <xs:element name="number" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Delivery">
+    <xs:sequence>
+      <xs:element name="recipient" type="tns:Person"/>
+      <xs:element name="address" type="tns:Address"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.delivery.shop.com/types" elementFormDefault="qualified" targetNamespace="http://www.delivery.shop.com" version="1.0">
+
+  <xs:import namespace="http://www.delivery.shop.com/types"/>
+
+  <xs:element name="cancelDeliveryRequest">
+    <xs:complexType>
+      <xs:sequence/>
+      <xs:attribute name="id" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="cancelDeliveryResponse" type="ns1:DeliveryInfo"/>
+
+  <xs:element name="deliveryError" type="ns1:Fault"/>
+
+  <xs:element name="deliveryRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="recipient" type="ns1:Person"/>
+        <xs:element name="address" type="ns1:Address"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="deliveryResponse" type="ns1:DeliveryInfo"/>
+
+  <xs:element name="deliveryStatusRequest">
+    <xs:complexType>
+      <xs:sequence/>
+      <xs:attribute name="id" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="deliveryStatusResponse" type="ns1:DeliveryInfo"/>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="deliveryStatus">
+    <wsdl:part element="ns1:deliveryStatusRequest" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deliveryResponse">
+    <wsdl:part element="ns1:deliveryStatusResponse" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="delivery">
+    <wsdl:part element="ns1:deliveryRequest" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelDeliveryResponse">
+    <wsdl:part element="ns1:cancelDeliveryResponse" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deliveryStatusResponse">
+    <wsdl:part element="ns1:deliveryStatusResponse" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelDelivery">
+    <wsdl:part element="ns1:cancelDeliveryRequest" name="payload">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeliveryError">
+    <wsdl:part element="ns1:deliveryError" name="DeliveryError">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Delivery">
+    <wsdl:operation name="delivery">
+      <wsdl:input message="ns1:delivery" name="delivery">
+    </wsdl:input>
+      <wsdl:output message="ns1:deliveryResponse" name="deliveryResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:DeliveryError" name="DeliveryError">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancelDelivery">
+      <wsdl:input message="ns1:cancelDelivery" name="cancelDelivery">
+    </wsdl:input>
+      <wsdl:output message="ns1:cancelDeliveryResponse" name="cancelDeliveryResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:DeliveryError" name="DeliveryError">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deliveryStatus">
+      <wsdl:input message="ns1:deliveryStatus" name="deliveryStatus">
+    </wsdl:input>
+      <wsdl:output message="ns1:deliveryStatusResponse" name="deliveryStatusResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:DeliveryError" name="DeliveryError">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

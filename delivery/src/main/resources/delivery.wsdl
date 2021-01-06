@@ -1,0 +1,107 @@
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://www.delivery.shop.com"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  name="delivery"
+                  targetNamespace="http://www.delivery.shop.com"
+                  xmlns:del="http://www.delivery.shop.com">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.delivery.shop.com">
+            <xsd:import schemaLocation="delivery.xsd" namespace="http://www.delivery.shop.com"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="deliveryRequest">
+        <wsdl:part element="del:deliveryRequest" name="payload"/>
+    </wsdl:message>
+    <wsdl:message name="deliveryResponse">
+        <wsdl:part element="del:deliveryResponse" name="payload"/>
+    </wsdl:message>
+
+    <wsdl:message name="deliveryStatusRequest">
+        <wsdl:part element="del:deliveryStatusRequest" name="payload"/>
+    </wsdl:message>
+    <wsdl:message name="deliveryStatusResponse">
+        <wsdl:part element="del:deliveryStatusResponse" name="payload"/>
+    </wsdl:message>
+
+    <wsdl:message name="deliveryCancelRequest">
+        <wsdl:part element="del:cancelDeliveryRequest" name="payload"/>
+    </wsdl:message>
+    <wsdl:message name="deliveryCancelResponse">
+        <wsdl:part element="del:cancelDeliveryResponse" name="payload"/>
+    </wsdl:message>
+
+    <wsdl:message name="deliveryError">
+        <wsdl:part element="del:deliveryError" name="payload"/>
+    </wsdl:message>
+
+    <wsdl:portType name="Delivery">
+        <wsdl:operation name="delivery">
+            <wsdl:input message="tns:deliveryRequest"/>
+            <wsdl:output message="tns:deliveryStatusResponse"/>
+            <wsdl:fault message="tns:deliveryError" name="deliveryError"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="deliveryStatus">
+            <wsdl:input message="tns:deliveryStatusRequest"/>
+            <wsdl:output message="tns:deliveryStatusResponse"/>
+            <wsdl:fault message="tns:deliveryError" name="deliveryError"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="cancelDelivery">
+            <wsdl:input message="tns:deliveryCancelRequest"/>
+            <wsdl:output message="tns:deliveryCancelResponse"/>
+            <wsdl:fault message="tns:deliveryError" name="deliveryError"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="DeliveryService" type="tns:Delivery">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="delivery">
+            <soap:operation soapAction="http://www.delivery.shop.com"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="deliveryError">
+                <soap:fault name="deliveryError" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="deliveryStatus">
+            <soap:operation soapAction="http://www.delivery.shop.com/status"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="deliveryError">
+                <soap:fault name="deliveryError" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="cancelDelivery">
+            <soap:operation soapAction="http://www.delivery.shop.com/cancel"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="deliveryError">
+                <soap:fault name="deliveryError" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="DeliveryService">
+        <wsdl:port binding="tns:DeliveryService" name="DeliveryServicePort">
+            <soap:address location="http://www.delivery.shop.com"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
